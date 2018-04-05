@@ -5,6 +5,6 @@ export class SimpleMob extends Mob {
 
     constructor(scene: Scene) {
         super(Vector3.Zero(), scene);
-        this.mesh = BABYLON.MeshBuilder.CreateSphere('sphere', { diameter: 2 }, scene);
+        this.mesh = BABYLON.MeshBuilder.CreateSphere('sphere', { diameter: 1 }, scene);
     }
 }
