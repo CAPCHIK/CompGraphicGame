@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
 
     const camera = new FreeCamera('Camera', new Vector3(0, 24, -23), scene);
     camera.setTarget(Vector3.Zero());
-    const inp = new KeyboardCameraInput(camera, 0.08);
+    const inp = new KeyboardCameraInput(camera, 0.2);
     camera.inputs.clear();
     camera.inputs.add(inp);
     camera.inputs.add(new MouseCameraInput());

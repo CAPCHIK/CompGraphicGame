@@ -4,6 +4,6 @@ export class GeneralScene {
     private ground: Mesh;
 
     constructor(scene: Scene) {
-        this.ground = MeshBuilder.CreateGround('ground', { width: 16, height: 16 }, scene);
+        this.ground = MeshBuilder.CreateGround('ground', { width: 160, height: 160 }, scene);
     }
 }
