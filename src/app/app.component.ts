@@ -5,6 +5,7 @@ import { GeneralScene } from './Models/GeneralScene';
 import { SimpleMob } from './Models/Mobs/SimpleMob';
 import { GamePath } from './Models/Stuff/GamePath';
 import { KeyboardCameraInput } from './Models/Stuff/CameraInputs/KeyboardCameraInput';
+import { MouseCameraInput } from './Models/Stuff/CameraInputs/MouseCameraInput';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +26,7 @@ export class AppComponent implements OnInit {
     const inp = new KeyboardCameraInput(camera, 0.08);
     camera.inputs.clear();
     camera.inputs.add(inp);
+    camera.inputs.add(new MouseCameraInput());
     // camera.inputs.attachInput(inp);
     camera.attachControl(canvas, true);
     const d = new GeneralScene(scene);

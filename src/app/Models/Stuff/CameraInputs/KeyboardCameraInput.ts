@@ -1,10 +1,10 @@
-import { FreeCamera, ICameraInput } from 'babylonjs';
+import { FreeCamera, ICameraInput, EventState, KeyboardInfo } from 'babylonjs';
 
 export class KeyboardCameraInput implements ICameraInput<FreeCamera> {
     camera: FreeCamera;
 
-    private downControlVar: (data: KeyboardEvent) => any;
-    private upControlVar: (data: KeyboardEvent) => any;
+
+    private pointer: (info: KeyboardInfo, state: EventState) => void;
 
     private keyWDown = false;
     private keyADown = false;
@@ -12,9 +12,7 @@ export class KeyboardCameraInput implements ICameraInput<FreeCamera> {
     private keyDDown = false;
 
     constructor(camera: FreeCamera, public speed: number) {
-        console.log('constructor');
-        this.downControlVar = e => this.downControl(e);
-        this.upControlVar = e => this.upControl(e);
+        this.pointer = (A, B) => this.handleKeyboard(A, B);
     }
     getClassName(): string {
         return 'KeyboardCameraInput';
@@ -23,15 +21,10 @@ export class KeyboardCameraInput implements ICameraInput<FreeCamera> {
         return 'my-keyboard';
     }
     attachControl(element: HTMLElement, noPreventDefault?: boolean): void {
-        console.log('attach');
-        console.log('attach');
-        console.log('attach');
-        console.log('attach');
-        element.onkeydown = this.downControlVar;
-        element.onkeyup = this.upControlVar;
+        this.camera.getScene().onKeyboardObservable.add(this.pointer);
     }
     detachControl(element: HTMLElement): void {
-
+        this.camera.getScene().onKeyboardObservable.removeCallback(this.pointer);
     }
     checkInputs(): void {
         if (this.camera) {
@@ -72,6 +65,14 @@ export class KeyboardCameraInput implements ICameraInput<FreeCamera> {
                 break;
             case 'KeyA':
                 this.keyADown = true;
+                break;
+        }
+    }
+    private handleKeyboard(info: KeyboardInfo, state: EventState): void {
+        switch (info.type) {
+            case 1: this.downControl(info.event);
+                break;
+            case 2: this.upControl(info.event);
                 break;
         }
     }
