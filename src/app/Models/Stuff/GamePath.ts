@@ -31,7 +31,6 @@ export class GamePath {
         let step = index;
         while (true) {
             if (this.between(position, index - 1, index)) {
-                console.log(index);
                 if (index === 0) {
                     index++;
                 }
