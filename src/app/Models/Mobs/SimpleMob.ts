@@ -12,6 +12,7 @@ export class SimpleMob extends Mob {
     }
 
     public setPosition(position: Vector3) {
+        super.setPosition(position);
         this.mesh.position.copyFrom(position);
     }
     public isThat(mesh: BABYLON.AbstractMesh): boolean {

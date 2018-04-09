@@ -16,7 +16,7 @@ export class GeneralScene {
         this.gui = new GUIManager();
         this.gui.createTowerObservable.add((s, a) => {
             this.gui.off();
-            const newTower = new BaseTower(scene);
+            const newTower = new BaseTower(scene, 5);
             this.placeNewTower(newTower);
         });
     }
@@ -25,16 +25,18 @@ export class GeneralScene {
     public update(frameTime: number): void {
         this.mobs.forEach(element => {
             element.update(frameTime);
+            this.towers.filter(t => !t.target).forEach(t => t.trySetTarget(element));
         });
-        for (let i = 0; i < this.towers.length; i++) {
-        }
-    }
+        this.towers.forEach(t => t.update(frameTime));
+}
 
 
     public spawnMob(mob: Mob): void {
         this.mobs.push(mob);
     }
-
+    public spawnTower(tower: BaseTower): void {
+        this.towers.push(tower);
+    }
     private placeNewTower(tower: BaseTower) {
         const mouseCallback = (data: PointerInfo, state: EventState) => {
             switch (data.type) {
@@ -44,6 +46,7 @@ export class GeneralScene {
                         return;
                     }
                     tower.setPosition(pick.pickedPoint);
+                    console.log(pick.pickedPoint);
                     break;
                 case 1: // down
                     this.scene.onPointerObservable.removeCallback(mouseCallback);

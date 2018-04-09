@@ -6,6 +6,7 @@ import { SimpleMob } from './Models/Mobs/SimpleMob';
 import { GamePath } from './Models/Stuff/GamePath';
 import { KeyboardCameraInput } from './Models/Stuff/CameraInputs/KeyboardCameraInput';
 import { MouseCameraInput } from './Models/Stuff/CameraInputs/MouseCameraInput';
+import { BaseTower } from './Models/Towers/BaseTower';
 
 @Component({
   selector: 'app-root',
@@ -43,8 +44,20 @@ export class AppComponent implements OnInit {
       // new Vector3(0, 2, 0)
     ];
     const firstMob = new SimpleMob(scene, 100, new GamePath(path, 0.005, scene));
+    setTimeout(() => {
+      d.spawnMob(new SimpleMob(scene, 100, new GamePath(path, 0.01, scene)));
+    }, 1000);
+    setTimeout(() => {
+      d.spawnMob(new SimpleMob(scene, 100, new GamePath(path, 0.0005, scene)));
+    }, 2000);
+    setTimeout(() => {
+      d.spawnMob(new SimpleMob(scene, 100, new GamePath(path, 0.005, scene)));
+    }, 3000);
     d.spawnMob(firstMob);
-    firstMob.setPosition(new Vector3(0, 1, 0));
+    const sampleTower = new BaseTower(scene, 5);
+    sampleTower.setPosition(new Vector3(8, 1, 12));
+    sampleTower.activate();
+    d.spawnTower(sampleTower);
     engine.runRenderLoop(function () {
       scene.render();
       d.update(engine.getDeltaTime());
