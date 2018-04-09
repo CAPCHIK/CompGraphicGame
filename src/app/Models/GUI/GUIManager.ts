@@ -2,7 +2,7 @@ import { AdvancedDynamicTexture, Button, Control, Vector2WithInfo } from 'babylo
 import { Color3, Observable, Vector2 } from 'babylonjs';
 
 export class GUIManager {
-    private texture;
+    public texture: AdvancedDynamicTexture;
     private isActive = true;
     private createTowerButton: Button;
     public createTowerObservable: Observable<Vector2WithInfo>;

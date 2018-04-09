@@ -1,21 +1,23 @@
 import { Vector3, Scene, Mesh } from 'babylonjs';
 import { Mob } from './Mob';
 import { GamePath } from '../Stuff/GamePath';
+import { AdvancedDynamicTexture } from 'babylonjs-gui';
 
 export class SimpleMob extends Mob {
-    private mesh: Mesh;
 
-    constructor(scene: Scene, health: number, pathMover: GamePath) {
-        super(scene, health, pathMover);
-        this.mesh = BABYLON.MeshBuilder.CreateCylinder('sphere', { diameter: 1 }, scene);
-        this.mesh.position = this.position;
+    constructor(scene: Scene, health: number, pathMover: GamePath, gui: AdvancedDynamicTexture) {
+        super(scene, health, pathMover, gui);
+
     }
-
+    protected setMesh(): void {
+        this.baseMesh = BABYLON.MeshBuilder.CreateCylinder('sphere', { diameter: 1 }, this.scene);
+        this.baseMesh.position = this.position;
+    }
     public setPosition(position: Vector3) {
         super.setPosition(position);
-        this.mesh.position.copyFrom(position);
+        this.baseMesh.position.copyFrom(position);
     }
     public isThat(mesh: BABYLON.AbstractMesh): boolean {
-        return mesh.uniqueId === this.mesh.uniqueId;
+        return mesh.uniqueId === this.baseMesh.uniqueId;
     }
 }

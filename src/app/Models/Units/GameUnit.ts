@@ -3,7 +3,7 @@ import { Vector3, Scene, AbstractMesh } from 'babylonjs';
 export abstract class GameUnit {
     protected _position = Vector3.Zero();
 
-    constructor(private scene: Scene) {
+    constructor(protected scene: Scene) {
     }
 
 

@@ -1,10 +1,9 @@
-import { GameUnit } from '../GameUnit';
+import { GameUnit } from '../Units/GameUnit';
 import { Mesh, Scene, MeshBuilder, Vector3, StandardMaterial, Color3, LinesMesh } from 'babylonjs';
 import { Mob } from '../Mobs/Mob';
+import { MeshUnit } from '../Units/MeshUnit';
 
-export class BaseTower extends GameUnit {
-
-    private mesh: Mesh;
+export class BaseTower extends MeshUnit {
     private buildMaterial: StandardMaterial;
 
     private debugLine: LinesMesh;
@@ -16,9 +15,11 @@ export class BaseTower extends GameUnit {
         this.buildMaterial = new StandardMaterial('build material', scene);
         this.buildMaterial.alpha = 0.2;
         this.buildMaterial.diffuseColor = Color3.Green();
+    }
 
-        this.mesh = MeshBuilder.CreatePolyhedron('what the tower', {}, scene);
-        this.mesh.material = this.buildMaterial;
+    protected setMesh(): void {
+        this.baseMesh = MeshBuilder.CreatePolyhedron('what the tower', {}, this.scene);
+        this.baseMesh.material = this.buildMaterial;
     }
 
     public activate(): void {
@@ -30,7 +31,7 @@ export class BaseTower extends GameUnit {
             return;
         }
         if (this.distanceCorrect(this.target)) {
-            this.mesh.lookAt(this.target.position);
+            this.baseMesh.lookAt(this.target.position);
         } else {
             this.target = undefined;
         }
@@ -47,12 +48,10 @@ export class BaseTower extends GameUnit {
     }
 
     public setPosition(position: Vector3) {
-        position = position.add(Vector3.Up().scale(1.3));
-        super.setPosition(position);
-        this.mesh.position.copyFrom(position);
+        super.setPosition(position.add(Vector3.Up().scale(1.3)));
     }
     public isThat(mesh: BABYLON.AbstractMesh): boolean {
-        return mesh.uniqueId === this.mesh.uniqueId;
+        return mesh.uniqueId === this.baseMesh.uniqueId;
     }
 
     private distanceCorrect(mob: Mob): boolean {

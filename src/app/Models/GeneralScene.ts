@@ -6,7 +6,7 @@ import { Mob } from './Mobs/Mob';
 
 export class GeneralScene {
     private ground: Mesh;
-    private gui: GUIManager;
+    public gui: GUIManager;
 
     private towers: Array<BaseTower> = [];
     private mobs: Array<Mob> = [];
