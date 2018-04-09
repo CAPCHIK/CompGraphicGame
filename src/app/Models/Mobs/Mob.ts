@@ -1,30 +1,38 @@
 
 import { Scene, GUI } from 'babylonjs';
 import { GamePath } from '../Stuff/GamePath';
-import { AdvancedDynamicTexture } from 'babylonjs-gui';
+import { AdvancedDynamicTexture, Rectangle, StackPanel, Control } from 'babylonjs-gui';
 import { GameUnit } from '../Units/GameUnit';
 import { MeshUnit } from '../Units/MeshUnit';
+import { HealthBar } from '../Stuff/GUI/HealthBar';
 
-export class Mob extends MeshUnit {
+export abstract class Mob extends MeshUnit {
+    private _health: number;
+    private healthBar: HealthBar;
+
 
     constructor(scene: Scene,
-        protected _health: number,
+        protected _maxHealth: number,
         private pathMover: GamePath,
-        private guiTexture: AdvancedDynamicTexture
+        guiTexture: AdvancedDynamicTexture
     ) {
         super(scene);
-        const rect = new GUI.Rectangle('asd');
-        rect.width = '0.1';
-        rect.height = '0.02';
-        // rect.linkWithMesh
-        guiTexture.addControl(rect);
+        this._health = _maxHealth;
+
+        const bar = new HealthBar();
+        bar.width = 0.04;
+        bar.height = 0.01;
+        guiTexture.addControl(bar);
+        bar.linkWithMesh(this.baseMesh);
+        this.healthBar = bar;
     }
 
     public update(frameTime: number): void {
         this.setPosition(this.pathMover.move(frameTime));
     }
     public addDamage(damage: number) {
-        this._health += damage;
+        this._health -= damage;
+        this.healthBar.setHealth(this._health / this._maxHealth);
     }
 
     public get health(): number {

@@ -2,6 +2,7 @@ import { GameUnit } from '../Units/GameUnit';
 import { Mesh, Scene, MeshBuilder, Vector3, StandardMaterial, Color3, LinesMesh } from 'babylonjs';
 import { Mob } from '../Mobs/Mob';
 import { MeshUnit } from '../Units/MeshUnit';
+import { AdvancedDynamicTexture } from 'babylonjs-gui';
 
 export class BaseTower extends MeshUnit {
     private buildMaterial: StandardMaterial;
@@ -9,7 +10,11 @@ export class BaseTower extends MeshUnit {
     private debugLine: LinesMesh;
     public target: Mob;
 
-    constructor(scene: Scene, protected radius: number) {
+    constructor(
+        scene: Scene,
+        protected radius: number,
+        guiTexture: AdvancedDynamicTexture
+    ) {
         super(scene);
 
         this.buildMaterial = new StandardMaterial('build material', scene);
@@ -32,6 +37,7 @@ export class BaseTower extends MeshUnit {
         }
         if (this.distanceCorrect(this.target)) {
             this.baseMesh.lookAt(this.target.position);
+            this.target.addDamage(0.1);
         } else {
             this.target = undefined;
         }

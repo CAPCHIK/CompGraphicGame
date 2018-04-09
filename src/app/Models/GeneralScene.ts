@@ -16,7 +16,7 @@ export class GeneralScene {
         this.gui = new GUIManager();
         this.gui.createTowerObservable.add((s, a) => {
             this.gui.off();
-            const newTower = new BaseTower(scene, 5);
+            const newTower = new BaseTower(scene, 5, this.gui.texture);
             this.placeNewTower(newTower);
         });
     }

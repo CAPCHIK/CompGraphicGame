@@ -14,6 +14,4 @@ export abstract class MeshUnit extends GameUnit {
         super.setPosition(position);
         this.baseMesh.position.copyFrom(position);
     }
-    public update(frameTime: number): void {
-    }
 }

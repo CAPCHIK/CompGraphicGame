@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
       d.spawnMob(new SimpleMob(scene, 100, new GamePath(path, 0.005, scene), d.gui.texture));
     }, 3000);
     d.spawnMob(firstMob);
-    const sampleTower = new BaseTower(scene, 5);
+    const sampleTower = new BaseTower(scene, 5,  d.gui.texture);
     sampleTower.setPosition(new Vector3(8, 1, 12));
     sampleTower.activate();
     d.spawnTower(sampleTower);
