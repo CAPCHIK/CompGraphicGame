@@ -2,10 +2,14 @@ import { Mesh, MeshBuilder, Scene, PointerInfo, EventState } from 'babylonjs';
 import { GUIManager } from './GUI/GUIManager';
 import { BaseTower } from './Towers/BaseTower';
 import { tokenReference } from '@angular/compiler';
+import { Mob } from './Mobs/Mob';
 
 export class GeneralScene {
     private ground: Mesh;
     private gui: GUIManager;
+
+    private towers: Array<BaseTower> = [];
+    private mobs: Array<Mob> = [];
 
     constructor(private scene: Scene) {
         this.ground = MeshBuilder.CreateGround('ground', { width: 160, height: 160 }, scene);
@@ -17,6 +21,19 @@ export class GeneralScene {
         });
     }
 
+
+    public update(frameTime: number): void {
+        this.mobs.forEach(element => {
+            element.update(frameTime);
+        });
+        for (let i = 0; i < this.towers.length; i++) {
+        }
+    }
+
+
+    public spawnMob(mob: Mob): void {
+        this.mobs.push(mob);
+    }
 
     private placeNewTower(tower: BaseTower) {
         const mouseCallback = (data: PointerInfo, state: EventState) => {
@@ -31,6 +48,8 @@ export class GeneralScene {
                 case 1: // down
                     this.scene.onPointerObservable.removeCallback(mouseCallback);
                     tower.activate();
+                    this.towers.push(tower);
+                    this.gui.on();
                     break;
             }
         };

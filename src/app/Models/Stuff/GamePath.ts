@@ -10,7 +10,6 @@ export class GamePath {
 
     constructor(
         private points: Array<Vector3>,
-        private target: GameUnit,
         private speed: number,
         private scene: Scene) {
         this.material = new StandardMaterial('', scene);
@@ -24,7 +23,7 @@ export class GamePath {
             this.distances.push(Vector3.Distance(this.points[i], this.points[i - 1]) + this.distances[this.distances.length - 1]);
         }
     }
-    public move(frameTime: number): void {
+    public move(frameTime: number): Vector3 {
         this.time += frameTime;
         const position = (this.time * this.speed) % this.distances[this.distances.length - 1];
         let index = Math.round(this.distances.length / 2);
@@ -39,8 +38,7 @@ export class GamePath {
                 }
                 const need = position - this.distances[index - 1];
                 const direction = this.points[index].subtract(this.points[index - 1]).normalize().scale(need);
-                this.target.setPosition(this.points[index - 1].add(direction));
-                return;
+                return this.points[index - 1].add(direction);
             }
             step = Math.round(step / 2);
             if (position < this.distances[index]) {

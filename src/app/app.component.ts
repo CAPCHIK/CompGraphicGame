@@ -37,20 +37,18 @@ export class AppComponent implements OnInit {
       new Vector3(0, 2, 0),
       new Vector3(0, 2, 10),
       new Vector3(10, 2, 10),
-      new Vector3(10, 20, 10),
-      new Vector3(0, 13, 10),
+      new Vector3(10, 2, 20),
+      new Vector3(20, 2, 20),
 
       // new Vector3(0, 2, 0)
     ];
-    const firstMob = new SimpleMob(scene);
-    const pathDrawer = new GamePath(path, firstMob, 0.00005, scene);
+    const firstMob = new SimpleMob(scene, 100, new GamePath(path, 0.005, scene));
+    d.spawnMob(firstMob);
     firstMob.setPosition(new Vector3(0, 1, 0));
     engine.runRenderLoop(function () {
       scene.render();
-      pathDrawer.move(engine.getDeltaTime());
-      // light2.position = camera.position;
+      d.update(engine.getDeltaTime());
     });
-
 
     window.addEventListener('resize', function () {
       engine.resize();

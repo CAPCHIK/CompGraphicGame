@@ -6,6 +6,7 @@ export abstract class GameUnit {
     constructor(private scene: Scene) {
     }
 
+
     public get position(): Vector3 {
         return this._position.clone();
     }
@@ -14,5 +15,6 @@ export abstract class GameUnit {
         this._position.copyFrom(position);
     }
 
+    public abstract update(frameTime: number): void;
     public abstract isThat(mesh: AbstractMesh): boolean;
 }
