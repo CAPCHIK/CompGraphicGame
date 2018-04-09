@@ -1,6 +1,6 @@
-import { Vector3, Scene } from 'babylonjs';
+import { Vector3, Scene, AbstractMesh } from 'babylonjs';
 
-export class GameUnit {
+export abstract class GameUnit {
     protected _position = Vector3.Zero();
 
     constructor(private scene: Scene) {
@@ -13,4 +13,6 @@ export class GameUnit {
     public setPosition(position: Vector3) {
         this._position.copyFrom(position);
     }
+
+    public abstract isThat(mesh: AbstractMesh): boolean;
 }

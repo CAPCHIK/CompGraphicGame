@@ -13,4 +13,7 @@ export class SimpleMob extends GameUnit {
     public setPosition(position: Vector3) {
         this.mesh.position.copyFrom(position);
     }
+    public isThat(mesh: BABYLON.AbstractMesh): boolean {
+        return mesh.uniqueId === this.mesh.uniqueId;
+    }
 }

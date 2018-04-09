@@ -30,15 +30,11 @@ export class MouseCameraInput implements ICameraInput<FreeCamera> {
             const forward = this.camera.getForwardRay(10000);
             const picked = this.camera.getScene().pickWithRay(forward, null);
             const distance = picked.distance;
-            console.log(distance);
             let increment = wheel.wheelDelta / 12;
-            console.log(increment);
             if (distance - increment <= 13) {
                 increment = distance - 13;
-                console.log('first ' + increment);
             } else if (distance - increment >= 100) {
                 increment = (100 - distance) * -1;
-                console.log('second ' + increment);
             }
             this.camera.position = forward.origin.add(forward.direction.normalize().scale(increment));
             return;
