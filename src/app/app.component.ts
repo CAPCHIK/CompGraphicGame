@@ -4,6 +4,8 @@ import { Engine, Scene, Vector3, PointLight, HemisphericLight, ArcRotateCamera, 
 import { GeneralScene } from './Models/GeneralScene';
 import { SimpleMob } from './Models/Mobs/SimpleMob';
 import { GamePath } from './Models/Stuff/GamePath';
+import { KeyboardCameraInput } from './Models/Stuff/CameraInputs/KeyboardCameraInput';
+import { MouseCameraInput } from './Models/Stuff/CameraInputs/MouseCameraInput';
 
 @Component({
   selector: 'app-root',
@@ -21,12 +23,16 @@ export class AppComponent implements OnInit {
 
     const camera = new FreeCamera('Camera', new Vector3(0, 24, -23), scene);
     camera.setTarget(Vector3.Zero());
+    const inp = new KeyboardCameraInput(camera, 0.2);
+    camera.inputs.clear();
+    camera.inputs.add(inp);
+    camera.inputs.add(new MouseCameraInput());
+    // camera.inputs.attachInput(inp);
     camera.attachControl(canvas, true);
-
     const d = new GeneralScene(scene);
 
     const light1 = new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
-    const light2 = new PointLight('light2', new Vector3(0, 1, -1), scene);
+    const light2 = new PointLight('light2', new Vector3(30, 1, -1), scene);
     const path = [
       new Vector3(0, 2, 0),
       new Vector3(0, 2, 10),
@@ -42,6 +48,7 @@ export class AppComponent implements OnInit {
     engine.runRenderLoop(function () {
       scene.render();
       pathDrawer.move(engine.getDeltaTime());
+      // light2.position = camera.position;
     });
 
 

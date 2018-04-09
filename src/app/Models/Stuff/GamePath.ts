@@ -1,5 +1,5 @@
 import { Vector3, Mesh, MeshBuilder, Scene, ShaderMaterial, StandardMaterial, Color3, Material, Curve3, LinesMesh } from 'babylonjs';
-import { Mob } from '../Mobs/Mob';
+import { GameUnit } from '../GameUnit';
 
 export class GamePath {
     private time = 0;
@@ -10,7 +10,7 @@ export class GamePath {
 
     constructor(
         private points: Array<Vector3>,
-        private target: Mob,
+        private target: GameUnit,
         private speed: number,
         private scene: Scene) {
         this.material = new StandardMaterial('', scene);
@@ -31,7 +31,6 @@ export class GamePath {
         let step = index;
         while (true) {
             if (this.between(position, index - 1, index)) {
-                console.log(index);
                 if (index === 0) {
                     index++;
                 }
