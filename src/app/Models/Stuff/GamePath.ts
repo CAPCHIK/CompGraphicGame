@@ -16,7 +16,7 @@ export class GamePath {
         this.material = new StandardMaterial('', scene);
         this.material.diffuseColor = Color3.Red();
 
-        const curve = Curve3.CreateCatmullRomSpline(this.points, 3);
+        const curve = Curve3.CreateCatmullRomSpline(this.points, 10);
         this.points = curve.getPoints();
         this.drawDebug(this.points);
         this.distances.push(0);

@@ -31,10 +31,13 @@ export class AppComponent implements OnInit {
       new Vector3(0, 2, 0),
       new Vector3(0, 2, 10),
       new Vector3(10, 2, 10),
+      new Vector3(10, 20, 10),
+      new Vector3(0, 13, 10),
+
       // new Vector3(0, 2, 0)
     ];
     const firstMob = new SimpleMob(scene);
-    const pathDrawer = new GamePath(path, firstMob, 0.005, scene);
+    const pathDrawer = new GamePath(path, firstMob, 0.00005, scene);
     firstMob.setPosition(new Vector3(0, 1, 0));
     engine.runRenderLoop(function () {
       scene.render();
