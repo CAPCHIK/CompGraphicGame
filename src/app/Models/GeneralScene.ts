@@ -1,17 +1,23 @@
-import { Mesh, MeshBuilder, Scene, PointerInfo, EventState } from 'babylonjs';
+import { Mesh, MeshBuilder, Scene, PointerInfo, EventState, Camera, FreeCamera, Vector3 } from 'babylonjs';
 import { GUIManager } from './GUI/GUIManager';
 import { BaseTower } from './Towers/BaseTower';
 import { tokenReference } from '@angular/compiler';
 import { Mob } from './Mobs/Mob';
+import { KeyboardCameraInput } from './Stuff/CameraInputs/KeyboardCameraInput';
+import { MouseCameraInput } from './Stuff/CameraInputs/MouseCameraInput';
+import { GameUnit } from './Units/GameUnit';
 
 export class GeneralScene {
     private ground: Mesh;
     public gui: GUIManager;
+    private camera: Camera;
 
     private towers: Array<BaseTower> = [];
     private mobs: Array<Mob> = [];
 
-    constructor(private scene: Scene) {
+    constructor(
+        private scene: Scene,
+        canvas: HTMLElement) {
         this.ground = MeshBuilder.CreateGround('ground', { width: 160, height: 160 }, scene);
         this.gui = new GUIManager();
         this.gui.createTowerObservable.add((s, a) => {
@@ -19,6 +25,7 @@ export class GeneralScene {
             const newTower = new BaseTower(scene, 5, this.gui.texture);
             this.placeNewTower(newTower);
         });
+        this.initCamera(canvas);
     }
 
 
@@ -28,7 +35,7 @@ export class GeneralScene {
             this.towers.filter(t => !t.target).forEach(t => t.trySetTarget(element));
         });
         this.towers.forEach(t => t.update(frameTime));
-}
+    }
 
 
     public spawnMob(mob: Mob): void {
@@ -37,6 +44,37 @@ export class GeneralScene {
     public spawnTower(tower: BaseTower): void {
         this.towers.push(tower);
     }
+
+    private initCamera(canvas: HTMLElement) {
+        const camera = new FreeCamera('Camera', new Vector3(0, 24, -23), this.scene);
+        camera.setTarget(Vector3.Zero());
+        const inp = new KeyboardCameraInput(camera, 0.2);
+        camera.inputs.clear();
+        camera.inputs.add(inp);
+        camera.inputs.add(new MouseCameraInput(d => this.updateGUIScale(d)));
+        camera.attachControl(canvas, true);
+    }
+
+    private updateGUIScale(distance: number): void {
+        this.towers
+            .map(t => t as GameUnit)
+            .concat(this.mobs.map(t => t as GameUnit))
+            .forEach(u => u.scaleGUI(this.valueInRange(distance, 13, 100, 0.5, 0.6)))
+            ;
+    }
+
+    private valueInRange(
+        value: number,
+        valueMin: number,
+        valueMax: number,
+        outMin: number,
+        outMax: number): number {
+        let v = outMin + (outMax - outMin) * ((value - valueMin) / (valueMax - valueMin));
+        v = 1 / v;
+        console.log(v);
+        return v;
+    }
+
     private placeNewTower(tower: BaseTower) {
         const mouseCallback = (data: PointerInfo, state: EventState) => {
             switch (data.type) {

@@ -8,7 +8,7 @@ export class MouseCameraInput implements ICameraInput<FreeCamera> {
 
     private needMove = false;
 
-    constructor() {
+    constructor(private changeHeigthCallback: (distance: number) => void) {
         this.pointer = (I, S) => this.handleMouse(I, S);
     }
 
@@ -25,7 +25,7 @@ export class MouseCameraInput implements ICameraInput<FreeCamera> {
         this.camera.getScene().onPointerObservable.removeCallback(this.pointer);
     }
     private handleMouse(info: PointerInfo, state: EventState): void {
-        if (info.type === 8) {
+        if (info.type === 8) { // wheel
             const wheel = info.event as WheelEvent;
             const forward = this.camera.getForwardRay(10000);
             const picked = this.camera.getScene().pickWithRay(forward, null);
@@ -37,6 +37,7 @@ export class MouseCameraInput implements ICameraInput<FreeCamera> {
                 increment = (100 - distance) * -1;
             }
             this.camera.position = forward.origin.add(forward.direction.normalize().scale(increment));
+            this.changeHeigthCallback(distance + increment);
             return;
         }
         switch (info.type) {

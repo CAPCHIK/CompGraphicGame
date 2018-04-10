@@ -22,15 +22,7 @@ export class AppComponent implements OnInit {
     const engine = new Engine(canvas, true);
     const scene = new Scene(engine);
 
-    const camera = new FreeCamera('Camera', new Vector3(0, 24, -23), scene);
-    camera.setTarget(Vector3.Zero());
-    const inp = new KeyboardCameraInput(camera, 0.2);
-    camera.inputs.clear();
-    camera.inputs.add(inp);
-    camera.inputs.add(new MouseCameraInput());
-    // camera.inputs.attachInput(inp);
-    camera.attachControl(canvas, true);
-    const d = new GeneralScene(scene);
+    const d = new GeneralScene(scene, canvas);
 
     const light1 = new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
     const light2 = new PointLight('light2', new Vector3(30, 1, -1), scene);
