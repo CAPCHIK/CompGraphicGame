@@ -32,21 +32,19 @@ export class AppComponent implements OnInit {
       new Vector3(10, 2, 10),
       new Vector3(10, 2, 20),
       new Vector3(20, 2, 20),
-
-      // new Vector3(0, 2, 0)
     ];
-    const firstMob = new SimpleMob(scene, 100, new GamePath(path, 0.005, scene), d.gui.texture);
+    const firstMob = new SimpleMob(scene, 100, new GamePath(path, 0.005, scene));
     setTimeout(() => {
-      d.spawnMob(new SimpleMob(scene, 100, new GamePath(path, 0.01, scene), d.gui.texture));
+      d.spawnMob(new SimpleMob(scene, 100, new GamePath(path, 0.01, scene)));
     }, 1000);
     setTimeout(() => {
-      d.spawnMob(new SimpleMob(scene, 100, new GamePath(path, 0.0005, scene), d.gui.texture));
+      d.spawnMob(new SimpleMob(scene, 100, new GamePath(path, 0.0005, scene)));
     }, 2000);
     setTimeout(() => {
-      d.spawnMob(new SimpleMob(scene, 100, new GamePath(path, 0.005, scene), d.gui.texture));
+      d.spawnMob(new SimpleMob(scene, 100, new GamePath(path, 0.005, scene)));
     }, 3000);
     d.spawnMob(firstMob);
-    const sampleTower = new BaseTower(scene, 5,  d.gui.texture);
+    const sampleTower = new BaseTower(scene, 5, 20, 1000);
     sampleTower.setPosition(new Vector3(8, 1, 12));
     sampleTower.activate();
     d.spawnTower(sampleTower);

@@ -1,5 +1,5 @@
 import { Vector3, Mesh, MeshBuilder, Scene, ShaderMaterial, StandardMaterial, Color3, Material, Curve3, LinesMesh } from 'babylonjs';
-import { GameUnit } from '../Units/GameUnit';
+import { GameUnit } from '../Units/UnitTypes/GameUnit';
 
 export class GamePath {
     private time = 0;

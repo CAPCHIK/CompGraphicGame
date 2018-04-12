@@ -5,7 +5,7 @@ import { AdvancedDynamicTexture } from 'babylonjs-gui';
 
 export class SimpleMob extends Mob {
 
-    constructor(scene: Scene, health: number, pathMover: GamePath, gui: AdvancedDynamicTexture) {
+    constructor(scene: Scene, health: number, pathMover: GamePath) {
         super(scene, health, pathMover);
     }
     protected setMesh(): void {

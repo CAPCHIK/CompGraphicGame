@@ -1,10 +1,11 @@
 
-import { Scene, GUI } from 'babylonjs';
+import { Scene, GUI, Effect } from 'babylonjs';
 import { GamePath } from '../Stuff/GamePath';
 import { AdvancedDynamicTexture, Rectangle, StackPanel, Control } from 'babylonjs-gui';
-import { GameUnit } from '../Units/GameUnit';
-import { MeshUnit } from '../Units/MeshUnit';
+import { GameUnit } from '../Units/UnitTypes/GameUnit';
+import { MeshUnit } from '../Units/UnitTypes/MeshUnit';
 import { HealthBar } from '../Stuff/GUI/HealthBar';
+import { UnitEffect } from '../Effects/UnitEffect';
 
 export abstract class Mob extends MeshUnit {
     private _health: number;
@@ -22,11 +23,17 @@ export abstract class Mob extends MeshUnit {
     }
 
     public update(frameTime: number): void {
+        super.update(frameTime);
+        this.effects.forEach(e => frameTime *= e.speedCoefficient);
         this.setPosition(this.pathMover.move(frameTime));
     }
     public addDamage(damage: number) {
+        this.effects.forEach(e => damage *= e.damageCoefficient);
         this._health -= damage;
         this.healthBar.setHealth(this._health / this._maxHealth);
+        if (this._health < 0) {
+            this.addDamage(-this._maxHealth);
+        }
     }
 
     public get health(): number {

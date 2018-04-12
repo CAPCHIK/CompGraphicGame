@@ -5,7 +5,8 @@ import { tokenReference } from '@angular/compiler';
 import { Mob } from './Mobs/Mob';
 import { KeyboardCameraInput } from './Stuff/CameraInputs/KeyboardCameraInput';
 import { MouseCameraInput } from './Stuff/CameraInputs/MouseCameraInput';
-import { GameUnit } from './Units/GameUnit';
+import { GameUnit } from './Units/UnitTypes/GameUnit';
+import { IceTower } from './Towers/IceTower';
 
 export class GeneralScene {
     private ground: Mesh;
@@ -21,7 +22,12 @@ export class GeneralScene {
         this.gui = new GUIManager();
         this.gui.createTowerObservable.add((s, a) => {
             this.gui.off();
-            const newTower = new BaseTower(scene, 5, this.gui.texture);
+            const newTower = new BaseTower(scene, 5, 1, 1);
+            this.placeNewTower(newTower);
+        });
+        this.gui.createIceTowerObservable.add((s, a) => {
+            this.gui.off();
+            const newTower = new IceTower(scene, 5, 0.01, 1000);
             this.placeNewTower(newTower);
         });
         this.initCamera(canvas);
@@ -64,7 +70,6 @@ export class GeneralScene {
                         return;
                     }
                     tower.setPosition(pick.pickedPoint);
-                    console.log(pick.pickedPoint);
                     break;
                 case 1: // down
                     this.scene.onPointerObservable.removeCallback(mouseCallback);
