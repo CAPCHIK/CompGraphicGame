@@ -13,16 +13,12 @@ export abstract class Mob extends MeshUnit {
     constructor(scene: Scene,
         protected _maxHealth: number,
         private pathMover: GamePath,
-        guiTexture: AdvancedDynamicTexture
     ) {
         super(scene);
         this._health = _maxHealth;
-
-        const bar = new HealthBar();
+        const bar = new HealthBar('health bar', scene);
+        bar.linkToMesh(this.baseMesh);
         this.healthBar = bar;
-        this.setGUISizes();
-        guiTexture.addControl(bar);
-        bar.linkWithMesh(this.baseMesh);
     }
 
     public update(frameTime: number): void {
@@ -39,14 +35,5 @@ export abstract class Mob extends MeshUnit {
 
     public isThat(mesh: BABYLON.AbstractMesh): boolean {
         return false;
-    }
-    public scaleGUI(scale: number): void {
-        super.scaleGUI(scale);
-        this.setGUISizes();
-    }
-
-    private setGUISizes() {
-        this.healthBar.width = this.getGuiParameter(0.04);
-        this.healthBar.height = this.getGuiParameter(0.01);
     }
 }

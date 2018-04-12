@@ -6,8 +6,7 @@ import { AdvancedDynamicTexture } from 'babylonjs-gui';
 export class SimpleMob extends Mob {
 
     constructor(scene: Scene, health: number, pathMover: GamePath, gui: AdvancedDynamicTexture) {
-        super(scene, health, pathMover, gui);
-
+        super(scene, health, pathMover);
     }
     protected setMesh(): void {
         this.baseMesh = BABYLON.MeshBuilder.CreateCylinder('sphere', { diameter: 1 }, this.scene);

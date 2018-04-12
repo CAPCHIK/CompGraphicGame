@@ -11,7 +11,6 @@ export class GeneralScene {
     private ground: Mesh;
     public gui: GUIManager;
     private camera: Camera;
-
     private towers: Array<BaseTower> = [];
     private mobs: Array<Mob> = [];
 
@@ -48,31 +47,12 @@ export class GeneralScene {
     private initCamera(canvas: HTMLElement) {
         const camera = new FreeCamera('Camera', new Vector3(0, 24, -23), this.scene);
         camera.setTarget(Vector3.Zero());
+        const mouseCameraController = new MouseCameraInput();
         const inp = new KeyboardCameraInput(camera, 0.2);
         camera.inputs.clear();
         camera.inputs.add(inp);
-        camera.inputs.add(new MouseCameraInput(d => this.updateGUIScale(d)));
+        camera.inputs.add(mouseCameraController);
         camera.attachControl(canvas, true);
-    }
-
-    private updateGUIScale(distance: number): void {
-        this.towers
-            .map(t => t as GameUnit)
-            .concat(this.mobs.map(t => t as GameUnit))
-            .forEach(u => u.scaleGUI(this.valueInRange(distance, 13, 100, 0.5, 0.6)))
-            ;
-    }
-
-    private valueInRange(
-        value: number,
-        valueMin: number,
-        valueMax: number,
-        outMin: number,
-        outMax: number): number {
-        let v = outMin + (outMax - outMin) * ((value - valueMin) / (valueMax - valueMin));
-        v = 1 / v;
-        console.log(v);
-        return v;
     }
 
     private placeNewTower(tower: BaseTower) {

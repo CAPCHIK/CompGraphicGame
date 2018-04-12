@@ -15,14 +15,6 @@ export abstract class GameUnit {
         this._position.copyFrom(position);
     }
 
-    public scaleGUI(scale: number): void {
-        this.currentGUIScale = scale;
-    }
-
-    protected getGuiParameter(parameter: number): number {
-        return parameter * this.currentGUIScale;
-    }
-
     public abstract update(frameTime: number): void;
     public abstract isThat(mesh: AbstractMesh): boolean;
 }

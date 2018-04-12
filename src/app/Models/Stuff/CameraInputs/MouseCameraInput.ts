@@ -1,4 +1,4 @@
-import { FreeCamera, ICameraInput, PointerInfo, EventState, FreeCameraVirtualJoystickInput } from 'babylonjs';
+import { FreeCamera, ICameraInput, PointerInfo, EventState, FreeCameraVirtualJoystickInput, Tags, PickingInfo } from 'babylonjs';
 
 export class MouseCameraInput implements ICameraInput<FreeCamera> {
     camera: FreeCamera;
@@ -8,7 +8,7 @@ export class MouseCameraInput implements ICameraInput<FreeCamera> {
 
     private needMove = false;
 
-    constructor(private changeHeigthCallback: (distance: number) => void) {
+    constructor() {
         this.pointer = (I, S) => this.handleMouse(I, S);
     }
 
@@ -37,7 +37,6 @@ export class MouseCameraInput implements ICameraInput<FreeCamera> {
                 increment = (100 - distance) * -1;
             }
             this.camera.position = forward.origin.add(forward.direction.normalize().scale(increment));
-            this.changeHeigthCallback(distance + increment);
             return;
         }
         switch (info.type) {
@@ -52,7 +51,6 @@ export class MouseCameraInput implements ICameraInput<FreeCamera> {
         this.camera.position.x += - info.event.movementX * 0.0011 * this.camera.position.y;
         this.camera.position.z += info.event.movementY * 0.0011 * this.camera.position.y;
     }
-
 
     private minMax(value: number, min: number, max: number): number {
         return value <= min ? min : value >= max ? max : value;
