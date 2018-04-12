@@ -7,6 +7,8 @@ import { GamePath } from './Models/Stuff/GamePath';
 import { KeyboardCameraInput } from './Models/Stuff/CameraInputs/KeyboardCameraInput';
 import { MouseCameraInput } from './Models/Stuff/CameraInputs/MouseCameraInput';
 import { BaseTower } from './Models/Towers/BaseTower';
+import { IceTower } from './Models/Towers/IceTower';
+import { AttackTower } from './Models/Towers/AttackTower';
 
 @Component({
   selector: 'app-root',
@@ -44,13 +46,18 @@ export class AppComponent implements OnInit {
       d.spawnMob(new SimpleMob(scene, 100, new GamePath(path, 0.005, scene)));
     }, 3000);
     d.spawnMob(firstMob);
-    const sampleTower = new BaseTower(scene, 5, 20, 1000);
+    const sampleTower = new AttackTower(scene, 5, 20, 1000);
+    const sampleIceTower = new IceTower(scene, 5, 20, 1000);
     sampleTower.setPosition(new Vector3(8, 1, 12));
+    sampleIceTower.setPosition(new Vector3(12.5, 1, 12));
     sampleTower.activate();
+    sampleIceTower.activate();
     d.spawnTower(sampleTower);
+    d.spawnTower(sampleIceTower);
     engine.runRenderLoop(function () {
       scene.render();
       d.update(engine.getDeltaTime());
+      d.setFPS(engine.getFps());
     });
 
     window.addEventListener('resize', function () {

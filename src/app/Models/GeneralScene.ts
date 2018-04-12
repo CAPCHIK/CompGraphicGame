@@ -7,6 +7,7 @@ import { KeyboardCameraInput } from './Stuff/CameraInputs/KeyboardCameraInput';
 import { MouseCameraInput } from './Stuff/CameraInputs/MouseCameraInput';
 import { GameUnit } from './Units/UnitTypes/GameUnit';
 import { IceTower } from './Towers/IceTower';
+import { AttackTower } from './Towers/AttackTower';
 
 export class GeneralScene {
     private ground: Mesh;
@@ -22,7 +23,7 @@ export class GeneralScene {
         this.gui = new GUIManager();
         this.gui.createTowerObservable.add((s, a) => {
             this.gui.off();
-            const newTower = new BaseTower(scene, 5, 1, 1);
+            const newTower = new AttackTower(scene, 5, 1, 1000);
             this.placeNewTower(newTower);
         });
         this.gui.createIceTowerObservable.add((s, a) => {
@@ -32,7 +33,9 @@ export class GeneralScene {
         });
         this.initCamera(canvas);
     }
-
+    public setFPS(fps: number) {
+        this.gui.setFPS(Math.round(fps));
+    }
 
     public update(frameTime: number): void {
         this.mobs.forEach(element => {

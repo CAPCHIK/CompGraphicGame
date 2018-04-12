@@ -4,12 +4,11 @@ import { Mob } from '../Mobs/Mob';
 import { MeshUnit } from '../Units/UnitTypes/MeshUnit';
 import { AdvancedDynamicTexture } from 'babylonjs-gui';
 
-export class BaseTower extends MeshUnit {
+export abstract class BaseTower extends MeshUnit {
     protected buildMaterial: StandardMaterial;
-
+    protected shootMaterial: StandardMaterial;
     private debugLine: LinesMesh;
     private timeFromLastShoot = 0;
-    private particleSystem: ParticleSystem;
     public target: Mob;
 
     constructor(
@@ -20,63 +19,17 @@ export class BaseTower extends MeshUnit {
     ) {
         super(scene);
         const particleSystem = new ParticleSystem('particles', 200, scene);
-        particleSystem.particleTexture = new BABYLON.Texture('assets/sketch.png', scene);
-        // Where the particles come from
-        particleSystem.emitter = this.baseMesh; // the starting object, the emitter
-        particleSystem.minEmitBox = new BABYLON.Vector3(-1, 0, 0); // Starting all from
-        particleSystem.maxEmitBox = new BABYLON.Vector3(1, 0, 0); // To...
 
-        // Colors of all particles
-        particleSystem.color1 = new BABYLON.Color4(0.7, 0.8, 1.0, 1.0);
-        particleSystem.color2 = new BABYLON.Color4(0.2, 0.5, 1.0, 1.0);
-        particleSystem.colorDead = new BABYLON.Color4(0, 0, 0.2, 0.0);
-
-        // Size of each particle (random between...
-        particleSystem.minSize = 0.1;
-        particleSystem.maxSize = 0.5;
-
-        // Life time of each particle (random between...
-        particleSystem.minLifeTime = 0.1;
-        particleSystem.maxLifeTime = 0.2;
-
-        // Emission rate
-        particleSystem.emitRate = 150000;
-
-        // Blend mode : BLENDMODE_ONEONE, or BLENDMODE_STANDARD
-        particleSystem.blendMode = BABYLON.ParticleSystem.BLENDMODE_ONEONE;
-
-        // Set the gravity of all particles
-        particleSystem.gravity = new BABYLON.Vector3(0, -10, 0);
-
-        // Direction of each particle after it has been emitted
-        particleSystem.direction1 = new BABYLON.Vector3(0, 10, -10);
-        particleSystem.direction2 = new BABYLON.Vector3(0, 10, -10);
-        // Angular speed, in radians
-        particleSystem.minAngularSpeed = 0;
-        particleSystem.maxAngularSpeed = Math.PI;
-
-        // Speed
-        particleSystem.minEmitPower = 1;
-        particleSystem.maxEmitPower = 3;
-        particleSystem.updateSpeed = 0.005;
-
-        this.particleSystem = particleSystem;
+        this.shootMaterial = new StandardMaterial('shoot material', scene);
+        this.shootMaterial.diffuseColor = Color3.Red();
     }
 
-    protected setMesh(): void {
-        this.buildMaterial = new StandardMaterial('build material', this.scene);
-        this.buildMaterial.alpha = 0.2;
-        this.buildMaterial.diffuseColor = Color3.Green();
-        this.baseMesh = MeshBuilder.CreatePolyhedron('what the tower', {}, this.scene);
-        this.baseMesh.material = this.buildMaterial;
-    }
+    public abstract activate(): void;
 
-    public activate(): void {
-        this.buildMaterial.diffuseColor = Color3.White();
-        this.buildMaterial.alpha = 1;
-    }
+
     public update(frameTime: number): void {
         super.update(frameTime);
+        this.timeFromLastShoot += frameTime;
         if (!this.target) {
             return;
         }
@@ -106,7 +59,6 @@ export class BaseTower extends MeshUnit {
     }
 
     private shootWork(frameTime: number) {
-        this.timeFromLastShoot += frameTime;
         if (this.timeFromLastShoot > this.firePeriod) {
             this.timeFromLastShoot = 0;
             this.shoot();
@@ -115,10 +67,12 @@ export class BaseTower extends MeshUnit {
 
     protected shoot() {
         this.target.addDamage(this.damage);
-        this.particleSystem.start();
-        setTimeout(() => this.particleSystem.stop(), 50);
+        this.buildMaterial.diffuseColor = Color3.Red();
+        setTimeout(() => { this.setStandartColor(); }, 50);
     }
-
+    protected setStandartColor() {
+        this.buildMaterial.diffuseColor = Color3.White();
+    }
     private distanceCorrect(mob: Mob): boolean {
         return Vector3.Distance(this.position, mob.position) < this.radius;
     }
