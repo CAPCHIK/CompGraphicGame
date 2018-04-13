@@ -16,7 +16,6 @@ export class IceTower extends BaseTower {
     }
 
     protected setMesh(): void {
-        super.setMesh();
         this.buildMaterial = new StandardMaterial('build material', this.scene);
         this.buildMaterial.alpha = 0.2;
         this.buildMaterial.diffuseColor = Color3.Green();

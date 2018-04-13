@@ -1,4 +1,4 @@
-import { Container, Measure, Rectangle, AdvancedDynamicTexture } from 'babylonjs-gui';
+import { Container, Measure, Rectangle, AdvancedDynamicTexture, Control } from 'babylonjs-gui';
 import { MeshBuilder, Scene, AbstractMesh } from 'babylonjs';
 
 export class HealthBar {
@@ -10,7 +10,7 @@ export class HealthBar {
         this.container = new Container();
         const rect = this.createRectangle('red');
         const green = this.createRectangle('green');
-        green.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+        green.horizontalAlignment = Control.HORIZONTAL_ALIGNMENT_LEFT;
         this.green = green;
         this.container.addControl(rect);
         this.container.addControl(green);

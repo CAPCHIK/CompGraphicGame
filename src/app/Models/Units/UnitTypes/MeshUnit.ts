@@ -8,9 +8,7 @@ export abstract class MeshUnit extends GameUnit {
         super(scene);
         this.setMesh();
     }
-    protected setMesh(): void {
-        this.baseMesh = MeshBuilder.CreateBox('default box', { size: 1 }, this.scene);
-    }
+    protected abstract setMesh(): void;
 
     public setPosition(position: Vector3) {
         super.setPosition(position);
