@@ -20,7 +20,9 @@ export abstract class GameUnit {
 
     public update(frameTime: number): void {
         for (let i = 0; i < this._effects.length; i++) {
-            if (!this._effects[i] || this._effects[i].forever) {
+            if (!this._effects) { return; }
+            this.applyEffect(this._effects[i]);
+            if (this._effects[i].forever) {
                 continue;
             }
             if (!this._effects[i].forever) {
@@ -37,12 +39,12 @@ export abstract class GameUnit {
     }
 
     public removeEffetc(effect: UnitEffect) {
-        this.effects[effect.type] = null;
+        this._effects[effect.type] = null;
     }
 
     public abstract isThat(mesh: AbstractMesh): boolean;
-
     protected get effects(): Array<UnitEffect> {
-        return this._effects.filter(e => e);
+        return this._effects.filter(a => a);
     }
+    protected abstract applyEffect(effects: UnitEffect);
 }
