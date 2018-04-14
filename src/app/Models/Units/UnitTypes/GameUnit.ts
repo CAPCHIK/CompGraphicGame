@@ -20,7 +20,7 @@ export abstract class GameUnit {
 
     public update(frameTime: number): void {
         for (let i = 0; i < this._effects.length; i++) {
-            if (!this._effects) { return; }
+            if (!this._effects[i]) { return; }
             this.applyEffect(this._effects[i]);
             if (this._effects[i].forever) {
                 continue;
