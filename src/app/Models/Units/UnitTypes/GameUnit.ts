@@ -1,5 +1,6 @@
 import { Vector3, Scene, AbstractMesh, Effect } from 'babylonjs';
 import { UnitEffect } from '../../Effects/UnitEffect';
+import { EffectType } from '../../Effects/EffectType';
 
 export abstract class GameUnit {
     protected _position = Vector3.Zero();
@@ -26,7 +27,7 @@ export abstract class GameUnit {
                 this._effects[i].duration -= frameTime;
             }
             if (this._effects[i].duration <= 0) {
-                this._effects[i] = undefined;
+                this._effects[i] = null;
             }
         }
     }
@@ -34,6 +35,11 @@ export abstract class GameUnit {
     public addEffect(effect: UnitEffect): void {
         this._effects[effect.type] = effect;
     }
+
+    public removeEffetc(effect: UnitEffect) {
+        this.effects[effect.type] = null;
+    }
+
     public abstract isThat(mesh: AbstractMesh): boolean;
 
     protected get effects(): Array<UnitEffect> {

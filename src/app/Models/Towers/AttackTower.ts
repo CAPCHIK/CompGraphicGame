@@ -9,7 +9,6 @@ export class AttackTower extends BaseTower {
         damage: number,
         firePeriod: number) {
         super(scene, radius, damage, firePeriod);
-        console.log('ctor');
     }
     protected setMesh(): void {
         this.buildMaterial = new StandardMaterial('build material', this.scene);

@@ -4,7 +4,7 @@ import { GameUnit } from '../Units/UnitTypes/GameUnit';
 export class GamePath {
     private time = 0;
     private debugMeshes: Array<Mesh> = [];
-    private lines: LinesMesh = undefined;
+    private lines: LinesMesh = null;
     private material: StandardMaterial;
     private distances: Array<number> = [];
 
@@ -78,7 +78,7 @@ export class GamePath {
             this.lines.dispose();
         }
 
-        this.lines = MeshBuilder.CreateLines('debug path', { points: points, updatable: true, instance: undefined }, this.scene);
+        this.lines = MeshBuilder.CreateLines('debug path', { points: points, updatable: true, instance: null }, this.scene);
         this.lines.color = Color3.Blue();
 
     }

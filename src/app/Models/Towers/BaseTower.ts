@@ -37,7 +37,7 @@ export abstract class BaseTower extends MeshUnit {
             this.baseMesh.lookAt(this.target.position);
             this.shootWork(frameTime);
         } else {
-            this.target = undefined;
+            this.target = null;
         }
         this.drawDebug();
     }

@@ -1,5 +1,5 @@
 import { EffectType } from './EffectType';
-import { Material } from 'babylonjs';
+import { Material, Color3 } from 'babylonjs';
 
 export class UnitEffect {
     constructor(
@@ -9,5 +9,5 @@ export class UnitEffect {
         public damageCoefficient = 1,
         public forever = false
     ) { }
-    material?: Material;
+    addedColor?: Color3;
 }
