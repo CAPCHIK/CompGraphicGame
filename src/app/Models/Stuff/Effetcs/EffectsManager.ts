@@ -17,6 +17,7 @@ export class EffectsManager {
                 this._effects[i][j].duration -= frameTime;
                 if (this._effects[i][j].duration <= 0) {
                     this._effects[i].splice(j, 1);
+                    this.needCalculate = true;
                 }
             }
         }
@@ -71,6 +72,9 @@ export class EffectsManager {
         effetsList.filter(eff => eff).forEach(element => {
             best.speedCoefficient = Math.min(best.speedCoefficient, element.speedCoefficient);
             best.damageCoefficient = Math.min(best.damageCoefficient, element.damageCoefficient);
+            if (element.addedColor) {
+                best.materialColor = element.addedColor.toColor4();
+            }
         });
         return best;
     }
