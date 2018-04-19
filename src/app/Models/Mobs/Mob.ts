@@ -24,11 +24,11 @@ export abstract class Mob extends MeshUnit {
 
     public update(frameTime: number): void {
         super.update(frameTime);
-        this.effects.forEach(e => frameTime *= e.speedCoefficient);
+        frameTime *= this.totalEffect.speedCoefficient;
         this.setPosition(this.pathMover.move(frameTime));
     }
     public addDamage(damage: number) {
-        this.effects.forEach(e => damage *= e.damageCoefficient);
+        damage *= this.totalEffect.damageCoefficient;
         this._health -= damage;
         this.healthBar.setHealth(this._health / this._maxHealth);
         if (this._health < 0) {

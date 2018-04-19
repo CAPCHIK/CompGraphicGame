@@ -1,11 +1,14 @@
 import { Vector3, Scene, AbstractMesh, Effect } from 'babylonjs';
 import { UnitEffect } from '../../Effects/UnitEffect';
 import { EffectType } from '../../Effects/EffectType';
+import { EffectsManager } from '../../Stuff/Effetcs/EffectsManager';
+import { TotalEffect } from '../../Effects/TotalEffect';
 
 export abstract class GameUnit {
     protected _position = Vector3.Zero();
-    private currentGUIScale = 1;
-    private _effects: Array<UnitEffect> = [];
+    private effectsManager = new EffectsManager();
+
+
     constructor(protected scene: Scene) {
     }
 
@@ -19,32 +22,20 @@ export abstract class GameUnit {
     }
 
     public update(frameTime: number): void {
-        for (let i = 0; i < this._effects.length; i++) {
-            if (!this._effects[i]) { return; }
-            this.applyEffect(this._effects[i]);
-            if (this._effects[i].forever) {
-                continue;
-            }
-            if (!this._effects[i].forever) {
-                this._effects[i].duration -= frameTime;
-            }
-            if (this._effects[i].duration <= 0) {
-                this._effects[i] = null;
-            }
-        }
+        this.effectsManager.update(frameTime);
     }
 
     public addEffect(effect: UnitEffect): void {
-        this._effects[effect.type] = effect;
+        this.effectsManager.addEffect(effect);
     }
 
     public removeEffetc(effect: UnitEffect) {
-        this._effects[effect.type] = null;
+        this.effectsManager.removeEffetc(effect);
+    }
+
+    public get totalEffect(): TotalEffect {
+        return this.effectsManager.totalEffect;
     }
 
     public abstract isThat(mesh: AbstractMesh): boolean;
-    protected get effects(): Array<UnitEffect> {
-        return this._effects.filter(a => a);
-    }
-    protected abstract applyEffect(effects: UnitEffect);
 }

@@ -66,7 +66,7 @@ export abstract class BaseTower extends MeshUnit {
     }
 
     protected shoot() {
-        this.target.addDamage(this.damage);
+        this.target.addDamage(this.damage * this.totalEffect.damageCoefficient);
         this.buildMaterial.diffuseColor = Color3.Red();
         setTimeout(() => { this.setStandartColor(); }, 50);
     }

@@ -1,0 +1,9 @@
+{
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 700,
+    "git.enableSmartCommit": true,
+    "git.autofetch": true,
+    "editor.renderWhitespace": "all",
+    "editor.renderControlCharacters": true,
+    "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe"    
+}
