@@ -25,7 +25,9 @@ export class IceTower extends BaseTower {
 
     public shoot() {
         super.shoot();
-        this.target.addEffect(new UnitEffect(2000, EffectType.Freeze, 0.5   ));
+        const effect = new UnitEffect(2000, EffectType.Freeze, 0.5);
+        effect.addedColor = Color3.Blue().toColor4();
+        this.target.addEffect(effect);
     }
 
     public activate(): void {

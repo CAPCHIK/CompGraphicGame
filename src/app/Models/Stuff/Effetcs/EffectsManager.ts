@@ -1,5 +1,6 @@
 import { UnitEffect } from '../../Effects/UnitEffect';
 import { TotalEffect } from '../../Effects/TotalEffect';
+import { ColorsFuncs } from './ColorsFuncs';
 
 export class EffectsManager {
     private _effects: Array<Array<UnitEffect>> = [];
@@ -64,6 +65,12 @@ export class EffectsManager {
         totalEffects.forEach(effect => {
             total.damageCoefficient *= effect.damageCoefficient;
             total.speedCoefficient *= effect.speedCoefficient;
+            if (!effect.materialColor) { return; }
+            if (total.materialColor) {
+                total.materialColor = ColorsFuncs.average(total.materialColor, effect.materialColor);
+            } else {
+                total.materialColor = effect.materialColor;
+            }
         });
         return total;
     }
@@ -73,7 +80,7 @@ export class EffectsManager {
             best.speedCoefficient = Math.min(best.speedCoefficient, element.speedCoefficient);
             best.damageCoefficient = Math.min(best.damageCoefficient, element.damageCoefficient);
             if (element.addedColor) {
-                best.materialColor = element.addedColor.toColor4();
+                best.materialColor = element.addedColor;
             }
         });
         return best;

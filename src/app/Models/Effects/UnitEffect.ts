@@ -1,5 +1,5 @@
 import { EffectType } from './EffectType';
-import { Material, Color3 } from 'babylonjs';
+import { Material, Color3, Color4 } from 'babylonjs';
 import { UniqIdObject } from '../Stuff/UniqIdObject';
 
 export class UnitEffect extends UniqIdObject {
@@ -11,5 +11,5 @@ export class UnitEffect extends UniqIdObject {
     ) {
         super();
     }
-    addedColor?: Color3;
+    addedColor?: Color4;
 }
