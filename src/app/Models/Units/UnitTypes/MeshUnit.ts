@@ -1,7 +1,8 @@
 import { GameUnit } from './GameUnit';
 import { Scene, AbstractMesh, MeshBuilder, Vector3 } from 'babylonjs';
+import { EffectsUnit } from './EffectsUnit';
 
-export abstract class MeshUnit extends GameUnit {
+export abstract class MeshUnit extends EffectsUnit {
     protected baseMesh: AbstractMesh;
 
     constructor(scene: Scene) {

@@ -8,6 +8,8 @@ import { MouseCameraInput } from './Stuff/CameraInputs/MouseCameraInput';
 import { GameUnit } from './Units/UnitTypes/GameUnit';
 import { IceTower } from './Towers/IceTower';
 import { AttackTower } from './Towers/AttackTower';
+import { MobsSpawner } from './Stuff/GamePlay/MobsSpawner';
+import { GamePath } from './Stuff/GamePath';
 
 export class GeneralScene {
     private ground: Mesh;
@@ -15,7 +17,7 @@ export class GeneralScene {
     private camera: Camera;
     private towers: Array<BaseTower> = [];
     private mobs: Array<Mob> = [];
-
+    private spawner: MobsSpawner;
     constructor(
         private scene: Scene,
         canvas: HTMLElement) {
@@ -32,6 +34,20 @@ export class GeneralScene {
             this.placeNewTower(newTower);
         });
         this.initCamera(canvas);
+        const path = [
+            new Vector3(0, 2, 0),
+            new Vector3(0, 2, 10),
+            new Vector3(10, 2, 10),
+            new Vector3(10, 2, 20),
+            new Vector3(20, 2, 20),
+        ];
+        this.spawner = new MobsSpawner(
+            scene,
+            new Vector3(0, 2, 0),
+            4000,
+            () => new GamePath(path, 0.005, scene),
+            m => this.spawnMob(m)
+        );
     }
     public setFPS(fps: number) {
         this.gui.setFPS(Math.round(fps));
@@ -43,6 +59,7 @@ export class GeneralScene {
             this.towers.filter(t => !t.target).forEach(t => t.trySetTarget(element));
         });
         this.towers.forEach(t => t.update(frameTime));
+        this.spawner.update(frameTime);
     }
 
 

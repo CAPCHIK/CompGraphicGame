@@ -6,12 +6,10 @@ import { TotalEffect } from '../../Effects/TotalEffect';
 
 export abstract class GameUnit {
     protected _position = Vector3.Zero();
-    private effectsManager = new EffectsManager();
 
-
-    constructor(protected scene: Scene) {
+    constructor(protected scene: Scene, startPosition = Vector3.Zero()) {
+        this._position = startPosition;
     }
-
 
     public get position(): Vector3 {
         return this._position.clone();
@@ -21,21 +19,10 @@ export abstract class GameUnit {
         this._position.copyFrom(position);
     }
 
-    public update(frameTime: number): void {
-        this.effectsManager.update(frameTime);
-    }
+    public update(frameTime: number) {
 
-    public addEffect(effect: UnitEffect): void {
-        this.effectsManager.addEffect(effect);
-    }
-
-    public removeEffetc(effect: UnitEffect) {
-        this.effectsManager.removeEffetc(effect);
-    }
-
-    public get totalEffect(): TotalEffect {
-        return this.effectsManager.totalEffect;
     }
 
     public abstract isThat(mesh: AbstractMesh): boolean;
+
 }

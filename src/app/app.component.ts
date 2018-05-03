@@ -28,24 +28,6 @@ export class AppComponent implements OnInit {
 
     const light1 = new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
     const light2 = new PointLight('light2', new Vector3(30, 1, -1), scene);
-    const path = [
-      new Vector3(0, 2, 0),
-      new Vector3(0, 2, 10),
-      new Vector3(10, 2, 10),
-      new Vector3(10, 2, 20),
-      new Vector3(20, 2, 20),
-    ];
-    const firstMob = new SimpleMob(scene, 100, new GamePath(path, 0.005, scene));
-    setTimeout(() => {
-      d.spawnMob(new SimpleMob(scene, 100, new GamePath(path, 0.01, scene)));
-    }, 1000);
-    setTimeout(() => {
-      d.spawnMob(new SimpleMob(scene, 100, new GamePath(path, 0.0005, scene)));
-    }, 2000);
-    setTimeout(() => {
-      d.spawnMob(new SimpleMob(scene, 100, new GamePath(path, 0.005, scene)));
-    }, 3000);
-    d.spawnMob(firstMob);
     const sampleTower = new AttackTower(scene, 5, 20, 1000);
     const sampleIceTower = new IceTower(scene, 5, 20, 1000);
     sampleTower.setPosition(new Vector3(8, 1, 12));
