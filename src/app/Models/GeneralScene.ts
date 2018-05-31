@@ -1,4 +1,4 @@
-import { Mesh, MeshBuilder, Scene, PointerInfo, EventState, Camera, FreeCamera, Vector3 } from 'babylonjs';
+import { Mesh, MeshBuilder, Scene, PointerInfo, EventState, Camera, FreeCamera, Vector3, SceneLoader } from 'babylonjs';
 import { GUIManager } from './GUI/GUIManager';
 import { BaseTower } from './Towers/BaseTower';
 import { tokenReference } from '@angular/compiler';
@@ -9,7 +9,7 @@ import { GameUnit } from './Units/UnitTypes/GameUnit';
 import { IceTower } from './Towers/IceTower';
 import { AttackTower } from './Towers/AttackTower';
 import { MobsSpawner } from './Stuff/GamePlay/MobsSpawner';
-import { GamePath } from './Stuff/GamePath';
+import { GamePath } from './Stuff/GamePlay/Path/GamePath';
 
 export class GeneralScene {
     private ground: Mesh;
@@ -25,7 +25,7 @@ export class GeneralScene {
         this.gui = new GUIManager();
         this.gui.createTowerObservable.add((s, a) => {
             this.gui.off();
-            const newTower = new AttackTower(scene, 5, 1, 1000);
+            const newTower = new AttackTower(scene, 5, 20, 1000);
             this.placeNewTower(newTower);
         });
         this.gui.createIceTowerObservable.add((s, a) => {
@@ -34,18 +34,19 @@ export class GeneralScene {
             this.placeNewTower(newTower);
         });
         this.initCamera(canvas);
-        const path = [
+        const points = [
             new Vector3(0, 2, 0),
             new Vector3(0, 2, 10),
             new Vector3(10, 2, 10),
             new Vector3(10, 2, 20),
             new Vector3(20, 2, 20),
         ];
+        const path = new GamePath(points, 0.005, scene);
         this.spawner = new MobsSpawner(
             scene,
             new Vector3(0, 2, 0),
             4000,
-            () => new GamePath(path, 0.005, scene),
+            () => path.createMover(),
             m => this.spawnMob(m)
         );
     }
@@ -54,10 +55,14 @@ export class GeneralScene {
     }
 
     public update(frameTime: number): void {
-        this.mobs.forEach(element => {
-            element.update(frameTime);
-            this.towers.filter(t => !t.target).forEach(t => t.trySetTarget(element));
-        });
+        for (let i = 0; i < this.mobs.length; i++) {
+            this.mobs[i].update(frameTime);
+            this.towers.filter(t => !t.target).forEach(t => t.trySetTarget(this.mobs[i]));
+            if (this.mobs[i].health < 0) {
+                this.mobs[i].dispose();
+                this.mobs.splice(i, 1);
+            }
+        }
         this.towers.forEach(t => t.update(frameTime));
         this.spawner.update(frameTime);
     }

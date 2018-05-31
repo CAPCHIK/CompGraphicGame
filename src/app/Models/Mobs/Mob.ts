@@ -31,9 +31,6 @@ export abstract class Mob extends MeshUnit {
         damage *= this.totalEffect.damageCoefficient;
         this._health -= damage;
         this.healthBar.setHealth(this._health / this._maxHealth);
-        if (this._health < 0) {
-            this.addDamage(-this._maxHealth);
-        }
     }
 
     public get health(): number {

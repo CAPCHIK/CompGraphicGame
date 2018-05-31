@@ -2,7 +2,6 @@ import { BaseTower } from './BaseTower';
 import { StandardMaterial, Color3, MeshBuilder, Scene } from 'babylonjs';
 
 export class AttackTower extends BaseTower {
-
     constructor(
         scene: Scene,
         radius: number,

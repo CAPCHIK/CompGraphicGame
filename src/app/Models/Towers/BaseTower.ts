@@ -33,12 +33,15 @@ export abstract class BaseTower extends MeshUnit {
         if (!this.target) {
             return;
         }
-        if (this.distanceCorrect(this.target)) {
-            this.baseMesh.lookAt(this.target.position);
-            this.shootWork(frameTime);
-        } else {
+        if (this.target.disposed) {
             this.target = null;
-        }
+        } else
+            if (this.distanceCorrect(this.target)) {
+                this.baseMesh.lookAt(this.target.position);
+                this.shootWork(frameTime);
+            } else {
+                this.target = null;
+            }
         this.drawDebug();
     }
 
@@ -82,7 +85,7 @@ export abstract class BaseTower extends MeshUnit {
             this.debugLine = MeshBuilder.CreateLines('tower debug line', {
                 points: [this.position, this.target.position],
                 updatable: true,
-                instance: this.debugLine,
+                instance: this.debugLine
             });
             this.debugLine.color = Color3.Yellow();
         } else if (this.debugLine) {

@@ -1,8 +1,8 @@
 import { GameUnit } from '../../Units/UnitTypes/GameUnit';
 import { Scene, Vector3 } from 'babylonjs';
 import { Timer } from '../Timer';
-import { GamePath } from '../GamePath';
 import { SimpleMob } from '../../Mobs/SimpleMob';
+import { PathMover } from './Path/PathMover';
 
 export class MobsSpawner extends GameUnit {
 
@@ -11,7 +11,7 @@ export class MobsSpawner extends GameUnit {
         scene: Scene,
         position = Vector3.Zero(),
         private spawnInterval: number,
-        private pathMoverCreater: () => GamePath,
+        private pathMoverCreater: () => PathMover,
         private mobCreated: (Mob) => void
         ) {
         super(scene, position);
@@ -29,7 +29,7 @@ export class MobsSpawner extends GameUnit {
 
     private spawn(): void {
         const pathMover = this.pathMoverCreater();
-        const mob = new SimpleMob(this.scene, 100, pathMover);
+        const mob = new SimpleMob(this.scene, 400, pathMover);
         this.mobCreated(mob);
     }
 }

@@ -15,4 +15,9 @@ export abstract class MeshUnit extends EffectsUnit {
         super.setPosition(position);
         this.baseMesh.position.copyFrom(position);
     }
+
+    public dispose(): void {
+        super.dispose();
+        this.baseMesh.dispose();
+    }
 }

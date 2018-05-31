@@ -1,14 +1,14 @@
 import { Vector3, Scene, Mesh, Color3, StandardMaterial, Material, Color4 } from 'babylonjs';
 import { Mob } from './Mob';
-import { GamePath } from '../Stuff/GamePath';
 import { AdvancedDynamicTexture } from 'babylonjs-gui';
 import { ColorsFuncs } from '../Stuff/Effetcs/ColorsFuncs';
+import { PathMover } from '../Stuff/GamePlay/Path/PathMover';
 
 export class SimpleMob extends Mob {
 
     private _standartColor = Color3.White().toColor4();
     private _material: StandardMaterial;
-    constructor(scene: Scene, health: number, pathMover: GamePath) {
+    constructor(scene: Scene, health: number, pathMover: PathMover) {
         super(scene, health, pathMover);
     }
 

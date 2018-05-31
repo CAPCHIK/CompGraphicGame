@@ -1,9 +1,8 @@
 import { Component, ViewChild, OnInit, SimpleChange } from '@angular/core';
 import { ElementRef } from '@angular/core';
-import { Engine, Scene, Vector3, PointLight, HemisphericLight, ArcRotateCamera, FreeCamera, MeshBuilder } from 'babylonjs';
+import { Engine, Scene, Vector3, PointLight, HemisphericLight, ArcRotateCamera, FreeCamera, MeshBuilder, AssetsManager } from 'babylonjs';
 import { GeneralScene } from './Models/GeneralScene';
 import { SimpleMob } from './Models/Mobs/SimpleMob';
-import { GamePath } from './Models/Stuff/GamePath';
 import { KeyboardCameraInput } from './Models/Stuff/CameraInputs/KeyboardCameraInput';
 import { MouseCameraInput } from './Models/Stuff/CameraInputs/MouseCameraInput';
 import { BaseTower } from './Models/Towers/BaseTower';
@@ -28,6 +27,17 @@ export class AppComponent implements OnInit {
 
     const light1 = new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
     const light2 = new PointLight('light2', new Vector3(30, 1, -1), scene);
+
+    const assetManager = new AssetsManager(scene);
+    const task = assetManager.addTextFileTask('json Task', 'assets/SpawnStrategyes/DefaultStrategy.json');
+    task.run(scene, () => {
+      console.log(task.text);
+    }, e => {
+      console.log(e);
+    });
+
+
+
     const sampleTower = new AttackTower(scene, 5, 20, 1000);
     const sampleIceTower = new IceTower(scene, 5, 20, 1000);
     sampleTower.setPosition(new Vector3(8, 1, 12));
