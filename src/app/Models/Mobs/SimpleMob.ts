@@ -6,8 +6,8 @@ import { PathMover } from '../Stuff/GamePlay/Path/PathMover';
 
 export class SimpleMob extends Mob {
 
-    private _standartColor = Color3.White().toColor4();
-    private _material: StandardMaterial;
+    private _standartColor = Color3.Black().toColor4();
+    protected _material: StandardMaterial;
     constructor(scene: Scene, health: number, pathMover: PathMover) {
         super(scene, health, pathMover);
     }
@@ -15,18 +15,20 @@ export class SimpleMob extends Mob {
     protected setMesh(): void {
         this.baseMesh = BABYLON.MeshBuilder.CreateCylinder('sphere', { diameter: 1 }, this.scene);
         this.baseMesh.position = this.position;
-        this._material = new StandardMaterial('simple mob material', this.scene);
+        this.generateMaterials();
         this.baseMesh.material = this._material;
     }
 
-
+    protected generateMaterials(): void {
+        this._material = new StandardMaterial('simple mob material', this.scene);
+    }
     public update(frameTime: number): void {
         super.update(frameTime);
         if (this.totalEffect.materialColor) {
-            this._material.diffuseColor = ColorsFuncs.toColor3(
-                ColorsFuncs.average(this._standartColor, this.totalEffect.materialColor));
+            // this._material.diffuseColor = ColorsFuncs.toColor3(
+            //     ColorsFuncs.average(this._standartColor, this.totalEffect.materialColor));
         } else {
-            this._material.diffuseColor = ColorsFuncs.toColor3(this._standartColor);
+            // this._material.diffuseColor = ColorsFuncs.toColor3(this._standartColor);
         }
     }
 

@@ -1,10 +1,10 @@
 import { Container, Measure, Rectangle, AdvancedDynamicTexture, Control } from 'babylonjs-gui';
-import { MeshBuilder, Scene, AbstractMesh } from 'babylonjs';
+import { MeshBuilder, Scene, AbstractMesh, Vector3 } from 'babylonjs';
 
 export class HealthBar {
     private green: Rectangle;
     private container: Container;
-    private plane: AbstractMesh;
+    public plane: AbstractMesh;
 
     constructor(name: string, scene: Scene, _width = 1, _height = 0.2) {
         this.container = new Container();
@@ -21,8 +21,11 @@ export class HealthBar {
     }
 
     public linkToMesh(mesh: AbstractMesh): void {
-        this.plane.position.y += mesh.getBoundingInfo().boundingSphere.radius * 1.3;
         mesh.addChild(this.plane);
+        this.plane.position = Vector3.Zero();
+        const bound = mesh.getBoundingInfo();
+        const heifth =  mesh.getBoundingInfo().boundingBox.extendSizeWorld.y * 200;
+        this.plane.position.y += bound.boundingSphere.radius;
     }
 
     public setHealth(health: number) {

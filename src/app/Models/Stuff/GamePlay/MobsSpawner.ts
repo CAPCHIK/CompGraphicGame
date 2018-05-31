@@ -3,6 +3,7 @@ import { Scene, Vector3 } from 'babylonjs';
 import { Timer } from '../Timer';
 import { SimpleMob } from '../../Mobs/SimpleMob';
 import { PathMover } from './Path/PathMover';
+import { PigMob } from '../../Mobs/PigMob';
 
 export class MobsSpawner extends GameUnit {
 
@@ -29,7 +30,7 @@ export class MobsSpawner extends GameUnit {
 
     private spawn(): void {
         const pathMover = this.pathMoverCreater();
-        const mob = new SimpleMob(this.scene, 400, pathMover);
+        const mob = new PigMob(this.scene, 400, pathMover);
         this.mobCreated(mob);
     }
 }

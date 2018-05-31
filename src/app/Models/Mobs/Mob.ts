@@ -1,19 +1,20 @@
 
-import { Scene, GUI, Effect } from 'babylonjs';
-import { GamePath } from '../Stuff/GamePath';
+import { Scene, GUI, Effect, Vector3 } from 'babylonjs';
 import { AdvancedDynamicTexture, Rectangle, StackPanel, Control } from 'babylonjs-gui';
 import { GameUnit } from '../Units/UnitTypes/GameUnit';
 import { MeshUnit } from '../Units/UnitTypes/MeshUnit';
 import { HealthBar } from '../Stuff/GUI/HealthBar';
 import { UnitEffect } from '../Effects/UnitEffect';
+import { GamePath } from '../Stuff/GamePlay/Path/GamePath';
+import { PathMover } from '../Stuff/GamePlay/Path/PathMover';
 
 export abstract class Mob extends MeshUnit {
     private _health: number;
-    private healthBar: HealthBar;
+    protected healthBar: HealthBar;
 
     constructor(scene: Scene,
         protected _maxHealth: number,
-        private pathMover: GamePath,
+        private pathMover: PathMover,
     ) {
         super(scene);
         this._health = _maxHealth;
@@ -25,7 +26,12 @@ export abstract class Mob extends MeshUnit {
     public update(frameTime: number): void {
         super.update(frameTime);
         frameTime *= this.totalEffect.speedCoefficient;
-        this.setPosition(this.pathMover.move(frameTime));
+        const moveInfo = this.pathMover.move(frameTime);
+        this.setPosition(moveInfo.position);
+        const currentRotation = this.baseMesh.rotationQuaternion.clone();
+        this.lookAt(moveInfo.viewPointer);
+        const needRotation = this.baseMesh.rotationQuaternion.subtract(currentRotation);
+        // this.healthBar.plane.rotationQuaternion = currentRotation.(needRotation);
     }
     public addDamage(damage: number) {
         damage *= this.totalEffect.damageCoefficient;

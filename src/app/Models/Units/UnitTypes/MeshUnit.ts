@@ -21,4 +21,8 @@ export abstract class MeshUnit extends EffectsUnit {
         super.dispose();
         this.baseMesh.dispose();
     }
+
+    public lookAt(targetPoint: Vector3): void {
+        this.baseMesh.lookAt(targetPoint);
+    }
 }
