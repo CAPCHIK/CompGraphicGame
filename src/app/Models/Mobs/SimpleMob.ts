@@ -1,4 +1,4 @@
-import { Vector3, Scene, Mesh, Color3, StandardMaterial, Material, Color4 } from 'babylonjs';
+import { Vector3, Scene, Mesh, Color3, StandardMaterial, Material, Color4, AssetsManager } from 'babylonjs';
 import { Mob } from './Mob';
 import { AdvancedDynamicTexture } from 'babylonjs-gui';
 import { ColorsFuncs } from '../Stuff/Effetcs/ColorsFuncs';
