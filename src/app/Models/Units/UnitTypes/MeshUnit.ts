@@ -9,8 +9,10 @@ export abstract class MeshUnit extends EffectsUnit {
         super(scene);
         this.assetsManager = new AssetsManager(scene);
         this.setMesh();
+        this.setMaterial();
     }
     protected abstract setMesh(): void;
+    protected abstract setMaterial(): void;
 
     public setPosition(position: Vector3) {
         super.setPosition(position);

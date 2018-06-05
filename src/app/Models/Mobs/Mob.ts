@@ -44,6 +44,10 @@ export abstract class Mob extends MeshUnit {
     }
 
     public isThat(mesh: BABYLON.AbstractMesh): boolean {
-        return false;
+        return mesh.uniqueId === this.baseMesh.uniqueId;
+    }
+    public setPosition(position: Vector3) {
+        super.setPosition(position);
+        this.baseMesh.position.copyFrom(position);
     }
 }

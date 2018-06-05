@@ -1,6 +1,7 @@
 import { Component, ViewChild, OnInit, SimpleChange } from '@angular/core';
 import { ElementRef } from '@angular/core';
-import { Engine, Scene, Vector3, PointLight, HemisphericLight, ArcRotateCamera, FreeCamera, MeshBuilder, AssetsManager, SceneLoader } from 'babylonjs';
+import { ArcRotateCamera, FreeCamera, MeshBuilder, AssetsManager, SceneLoader, StandardMaterial, Color3, Mesh, Space } from 'babylonjs';
+import { Engine, Scene, Vector3, PointLight, HemisphericLight } from 'babylonjs';
 import { GeneralScene } from './Models/GeneralScene';
 import { SimpleMob } from './Models/Mobs/SimpleMob';
 import { KeyboardCameraInput } from './Models/Stuff/CameraInputs/KeyboardCameraInput';
@@ -9,6 +10,7 @@ import { BaseTower } from './Models/Towers/BaseTower';
 import { IceTower } from './Models/Towers/IceTower';
 import { AttackTower } from './Models/Towers/AttackTower';
 import { PigMob } from './Models/Mobs/PigMob';
+import { TankMob } from './Models/Mobs/TankMob';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +25,7 @@ export class AppComponent implements OnInit {
     const canvas = this.canvasEl.nativeElement;
     const engine = new Engine(canvas, true);
     const scene = new Scene(engine);
-    scene.debugLayer.show();
+
     const d = new GeneralScene(scene, canvas);
 
     const light1 = new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
@@ -39,6 +41,13 @@ export class AppComponent implements OnInit {
     SceneLoader.ImportMesh('', 'assets/', 'pig.babylon', scene, (m, p, s) => {
       m[0].scaling = m[0].scaling.scale(0.01);
       PigMob.pigMesh = m[0];
+    });
+    SceneLoader.ImportMesh('', 'assets/', 'tank.babylon', scene, (m, p, s) => {
+      const newMesh = Mesh.MergeMeshes(m.map(am => am as Mesh), true, true);
+      newMesh.rotate(Vector3.Up(), Math.PI / -4);
+      newMesh.scaling = newMesh.scaling.scale(0.2);
+      newMesh.setPivotPoint(newMesh.getPivotPoint().add(new Vector3(-2.5, 0, 0)), Space.LOCAL);
+      TankMob.mesh = newMesh;
     });
 
     engine.loadingScreen.displayLoadingUI();
