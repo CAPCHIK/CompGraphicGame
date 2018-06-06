@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
     const canvas = this.canvasEl.nativeElement;
     const engine = new Engine(canvas, true);
     const scene = new Scene(engine);
-
+    scene.debugLayer.show();
     const d = new GeneralScene(scene, canvas);
 
     const light1 = new HemisphericLight('light1', new Vector3(1, 1, 0), scene);
