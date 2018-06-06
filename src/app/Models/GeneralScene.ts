@@ -36,7 +36,7 @@ export class GeneralScene {
         this.initCamera(canvas);
         const points = [
             new Vector3(0, 2, 0),
-            new Vector3(0, 2, 10),
+            new Vector3(-10, 2, 10),
             new Vector3(10, 2, 10),
             new Vector3(10, 2, 20),
             new Vector3(20, 2, 20),

@@ -1,7 +1,8 @@
 import { BaseTower } from './BaseTower';
-import { StandardMaterial, Color3, MeshBuilder, Scene } from 'babylonjs';
+import { StandardMaterial, Color3, MeshBuilder, Scene, AbstractMesh } from 'babylonjs';
 
 export class AttackTower extends BaseTower {
+    public static mesh: AbstractMesh;
     constructor(
         scene: Scene,
         radius: number,
@@ -10,7 +11,7 @@ export class AttackTower extends BaseTower {
         super(scene, radius, damage, firePeriod);
     }
     protected setMesh(): void {
-        this.baseMesh = MeshBuilder.CreatePolyhedron('what the tower', {}, this.scene);
+        this.baseMesh = AttackTower.mesh.clone('new attack tower mesh', AttackTower.mesh.parent);
     }
 
     protected setMaterial() {

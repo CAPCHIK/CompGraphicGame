@@ -37,7 +37,7 @@ export abstract class BaseTower extends MeshUnit {
             this.target = null;
         } else
             if (this.distanceCorrect(this.target)) {
-                this.baseMesh.lookAt(this.target.position);
+                this.lookAt(this.target.position);
                 this.shootWork(frameTime);
             } else {
                 this.target = null;
@@ -60,7 +60,9 @@ export abstract class BaseTower extends MeshUnit {
     public isThat(mesh: BABYLON.AbstractMesh): boolean {
         return mesh.uniqueId === this.baseMesh.uniqueId;
     }
-
+    public lookAt(targetPoint: Vector3): void {
+        this.baseMesh.lookAt(new Vector3(targetPoint.x, this.baseMesh.position.y, targetPoint.z));
+    }
     private shootWork(frameTime: number) {
         if (this.timeFromLastShoot > this.firePeriod) {
             this.timeFromLastShoot = 0;

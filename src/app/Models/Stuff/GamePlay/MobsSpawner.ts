@@ -19,7 +19,7 @@ export class MobsSpawner extends GameUnit {
         ) {
         super(scene, position);
         this.spawnPigTimer = new Timer(spawnInterval, () => this.spawnPig());
-        this.spawnTankTimer = new Timer(this.spawnInterval * 2.3, () => this.spawnTank())
+        this.spawnTankTimer = new Timer(this.spawnInterval * 2.3, () => this.spawnTank());
     }
 
     public update(frameTime: number): void {
